@@ -1,0 +1,24 @@
+{
+  "name": "shared-bookmarks",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/.bin/jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Elisabeth-Matulian/shared-bookmarks.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Elisabeth-Matulian/shared-bookmarks/issues"
+  },
+  "homepage": "https://github.com/Elisabeth-Matulian/shared-bookmarks#readme",
+  "devDependencies": {
+    "jest": "^30.4.2"
+  }
+}
