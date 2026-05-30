@@ -1,5 +1,5 @@
 
-import { getData, setData } from "./storage.js"
+import { getData, setData, getUserIds } from "./storage.js"
 
 // === DATA ===
 let cache = {};
@@ -13,6 +13,16 @@ const bookmarksBox = document.getElementById("bookmarksBox");
 const userSelect = document.getElementById("userSelect");
 
 // === ENTRY POINT === 
+function setup() {
+    const userIds = getUserIds();
+    userSelect.innerHTML = "<option value=''>Select a user</option>";
+    for (const user of userIds) {
+        const option = document.createElement("option");
+        option.value = user;
+        option.textContent = user;
+        userSelect.append(option);
+    }
+}
 
 // === SORTING BOOKMARKS ===
 function sortBookmarks(bookmarks) {
@@ -33,3 +43,5 @@ function createBookmark(title, url, description) {
         time: new Date().toISOString()
     }
 }
+
+window.onload = setup;
