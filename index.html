@@ -22,6 +22,10 @@
     <form id="bookmarkForm">
         <label>
             Title:
+            <textarea id="bookmarkTitle" placeholder="Bookmark Title"></textarea>
+        </label>
+        <label>
+            URL:
             <input type="url" id="bookmarkURL" placeholder="Bookmark URL" required>
         </label>
         <label>
@@ -30,7 +34,7 @@
         </label>
         <button type="submit">Add Bookmark</button>
     </form>
-    <div id="bookmarks"></div>
+    <div id="bookmarksBox"></div>
     <script src="script.js"></script>
     <footer>
         <p>&copy; 2026 Bookmarks App</p>
