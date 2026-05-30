@@ -15,9 +15,10 @@ const userSelect = document.getElementById("userSelect");
 // === ENTRY POINT === 
 
 // === SORTING BOOKMARKS ===
-function sortBookmarks(userId) {
-    let bookmarks = getData(userId);
-    return bookmarks.sort((a, b) => b.time - a.time);
+function sortBookmarks(bookmarks) {
+    return bookmarks.sort((a, b) => a.time > b.time ? -1 
+    : a.time < b.time ? 1
+    : 0)
 }
 
 // === RENDERING BOOKMARKS ===
