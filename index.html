@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookmarks</title>
+</head>
+
+<body>
+    <label>
+        Select User:
+        <select id="userSelect">
+            <option value="">Select a user</option>
+            <option value="user1">Mirabelle</option>
+            <option value="user2">Elisabeth</option>
+            <option value="user3">Prakash</option>
+            <option value="user4">Leon</option>
+            <option value="user5">Shaif</option>
+        </select>
+    </label>
+    <form id="bookmarkForm">
+        <label>
+            Title:
+            <input type="url" id="bookmarkURL" placeholder="Bookmark URL" required>
+        </label>
+        <label>
+            Description:
+            <textarea id="bookmarkDescription" placeholder="Bookmark Description"></textarea>
+        </label>
+        <button type="submit">Add Bookmark</button>
+    </form>
+    <div id="bookmarks"></div>
+    <script src="script.js"></script>
+    <footer>
+        <p>&copy; 2026 Bookmarks App</p>
+    </footer>
+</body>
+
+</html>
