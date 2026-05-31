@@ -1,0 +1,199 @@
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Instrument+Serif:ital@0;1&display=swap");
+
+/* ========== GLOBAL VAR SETTINGS ==============*/
+
+:root {
+  --font-family: "Geist", serif;
+  --scroll-behavior: smooth;
+  --font-body: clamp(14px, 1.5vw, 18px);
+  --gray: rgb(169, 169, 169);
+  --primary-color: rgb(91, 35, 203);
+  --small-font: clamp(9px, 1vw, 11px);
+}
+
+/* ========== BODY SETTINGS ==============*/
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  font-size: var(--font-body);
+  overflow-x: hidden;
+}
+
+main {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 80lvh;
+}
+
+button {
+  background: transparent;
+  border-radius: 30px;
+  padding: 5px;
+  cursor: pointer;
+  height: fit-content;
+  font-size: var(--small-font);
+  border: var(--gray) dashed 1px;
+  color: var(--gray);
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+button:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* ========== HEADER /NAV SETTINGS ==============*/
+
+header {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
+  border-bottom: var(--gray) dashed 1px;
+  position: sticky;
+  top: 0;
+  background: white;
+}
+
+header h1 {
+  margin: 0;
+}
+
+header div {
+  padding: 0 30px;
+}
+
+.visually-hidden {
+  position: absolute;
+  left: -9999px;
+}
+
+#userSelect {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--gray);
+  border-radius: 30px;
+  background: white;
+  text-align: center;
+  font-size: clamp(9px, 1rem, 16px);
+  color: #333;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+}
+
+/* ========== BOOKMARKS SECTION ==============*/
+
+.bookmarksContainer,
+.submitBookmarkContainer {
+  padding: 20px;
+}
+
+.bookmarksContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  /* width: 60%; */
+  border-right: 1px dashed var(--gray);
+}
+
+.userBookmarkTitleLink {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.5s ease-in-out;
+}
+
+.userBookmarkTitleLink:hover {
+  color: var(--primary-color);
+}
+
+.userBookmarkTitle,
+.userBookmarkDescription {
+  display: inline;
+}
+
+.userBookmarkDetailsContainer {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  font-size: var(--small-font);
+  color: var(--gray);
+}
+
+.userBookmarkDetailsContainer p {
+  border-right: var(--gray) dashed 1px;
+  padding-right: 0.5rem;
+}
+
+/* ========== INPUT FIELDS ==============*/
+
+.submitBookmarkContainer {
+  display: flex;
+  position: sticky;
+  top: 100px;
+  align-self: flex-start;
+  flex-direction: column;
+  gap: 1rem;
+  width: 30%;
+}
+
+.submitBookmarkTitle {
+  margin: 0;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  font-size: var(--small-font);
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--gray);
+  font-size: var(--small-font);
+}
+
+/* ========== FOOTER ==============*/
+
+footer {
+  align-items: center;
+  padding: 0 30px;
+  border-top: var(--gray) dashed 1px;
+}
+
+/* ========== BREAKPOINT ==============*/
+
+@media (max-width: 450px) {
+  main {
+    flex-direction: column;
+    padding: 0 20px;
+  }
+
+  header div {
+    padding: 0 5px;
+    font-size: 10px;
+  }
+
+  .bookmarksContainer,
+  .submitBookmarkContainer {
+    width: 100%;
+    border: none;
+    padding: 10px 0;
+    position: static;
+    top: auto;
+    align-self: stretch;
+  }
+
+  .bookmarksContainer {
+    border-bottom: var(--gray) dashed 1px;
+  }
+}

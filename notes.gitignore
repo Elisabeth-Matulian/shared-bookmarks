@@ -1,0 +1,3 @@
+What I've done is that I installed a web server npm package called "http-server" globally on my machine. This allows me to serve my notes directory as a static website.
+
+Added style.css
