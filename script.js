@@ -1,9 +1,6 @@
 
 import { getData, setData, getUserIds } from "./storage.js"
 
-// === DATA ===
-let cache = {};
-
 // === DOM ELEMENTS ===
 const bookmarkForm = document.getElementById("bookmarkForm");
 const bookmarkTitle = document.getElementById("bookmarkTitle");
@@ -24,12 +21,6 @@ function setup() {
     }
 }
 
-// === SORTING BOOKMARKS ===
-function sortBookmarks(bookmarks) {
-    return bookmarks.sort((a, b) => a.time > b.time ? -1 
-    : a.time < b.time ? 1
-    : 0)
-}
 
 // === RENDERING BOOKMARKS ===
 
@@ -42,6 +33,20 @@ function createBookmark(title, url, description) {
         likes: 0,
         time: new Date().toISOString()
     }
+}
+
+function sortBookmarks(bookmarks) {
+    return bookmarks.sort((a, b) => a.time > b.time ? -1 
+    : a.time < b.time ? 1
+    : 0)
+}
+
+function addBookmark(userId, title, url, description) {
+    let bookmarks = getData(userId);
+    bookmarks ??= [];
+    bookmarks.push(createBookmark(title, url, description));
+    sortBookmarks(bookmarks);
+    setData(userId, bookmarks);
 }
 
 window.onload = setup;
