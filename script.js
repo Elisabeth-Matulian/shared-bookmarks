@@ -1,6 +1,10 @@
 // all comments MUST be deleted before final submission. I just added these here to explain my thought process.
 
+// === IMPORT POINT ===
+
 import { getData, setData } from "./storage.js";
+
+// === DOM ELEMENTS ===
 
 let currentUser = null; // this holds the user that is currently selected in the dropdown.
 let allBookmarks = {}; // this variable will hold all the bookmarks for all users.
@@ -9,6 +13,9 @@ const bookmarkForm = document.getElementById("bookmarkForm"); // new form submis
 const bookmarksBox = document.getElementById("bookmarksBox"); // grab and append the bookmark cards to this element.
 const userSelect = document.getElementById("userSelect"); // grab user changes (from dropdown) and to know which user's bookmarks to display
 const bookmarkTemplate = document.querySelector("template"); // clone the bookmark template in HTML and replace the details (title, url, description, timestamp) with what was submitted in the form
+const formFeedback = document.getElementById("formFeedback"); // element to display feedback messages
+
+// === ENTRY POINT/LISTENERS ===
 
 userSelect.addEventListener("change", (event) => {
   currentUser = event.target.value; // 1. listen for and pick up the user that was selected and set it as the currentUser.
@@ -18,6 +25,16 @@ userSelect.addEventListener("change", (event) => {
 
 bookmarkForm.addEventListener("submit", (event) => {
   event.preventDefault(); // 1. prevent refresh on submit
+
+  if (!currentUser) {
+    formFeedback.textContent =
+      "Mhmm strange things might happen. Please select a user first, then click the 'add bookmark' button.";
+    formFeedback.style.color = "red";
+    return; // Stop here, don't do anything else
+  }
+
+  // Clear any previous warning
+  formFeedback.textContent = "";
 
   const title = document.getElementById("bookmarkTitle").value; // 2. save and grab submitted bookmark title
   const url = document.getElementById("bookmarkURL").value; // 3. save and grab submitted URL
@@ -46,6 +63,8 @@ bookmarkForm.addEventListener("submit", (event) => {
   bookmarkForm.reset();
 });
 
+// === RENDERING BOOKMARKS ===
+
 function renderBookmarks() {
   bookmarksBox.innerHTML = "";
 
@@ -72,6 +91,14 @@ function renderBookmarks() {
     card.querySelector(".copyClipboardButton").addEventListener("click", () => {
       navigator.clipboard.writeText(bookmark.url);
       alert("Copied!");
+    });
+
+    const likeButton = card.querySelector(".userBookmarkCounter");
+
+    likeButton.addEventListener("click", () => {
+      bookmark.likes += 1;
+      likeButton.textContent = "Likes: " + bookmark.likes;
+      setData(currentUser, allBookmarks[currentUser]);
     });
 
     bookmarksBox.appendChild(card);
