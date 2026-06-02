@@ -1,74 +1,111 @@
-// all comments MUST be deleted before final submission. I just added these here to explain my thought process.
+import { getData, setData, getUserIds } from "./storage.js";
 
-// === IMPORT POINT ===
-
-import { getData, setData } from "./storage.js";
+let currentUser = null;
 
 // === DOM ELEMENTS ===
 
-let currentUser = null; // this holds the user that is currently selected in the dropdown.
-let allBookmarks = {}; // this variable will hold all the bookmarks for all users.
+const bookmarkForm = document.getElementById("bookmarkForm");
+const bookmarkTitle = document.getElementById("bookmarkTitle");
+const bookmarkURL = document.getElementById("bookmarkURL");
+const bookmarkDescription = document.getElementById("bookmarkDescription");
+const bookmarksBox = document.getElementById("bookmarksBox");
+const userSelect = document.getElementById("userSelect");
+const bookmarkTemplate = document.querySelector("template");
+const formFeedback = document.getElementById("formFeedback");
 
-const bookmarkForm = document.getElementById("bookmarkForm"); // new form submissions
-const bookmarksBox = document.getElementById("bookmarksBox"); // grab and append the bookmark cards to this element.
-const userSelect = document.getElementById("userSelect"); // grab user changes (from dropdown) and to know which user's bookmarks to display
-const bookmarkTemplate = document.querySelector("template"); // clone the bookmark template in HTML and replace the details (title, url, description, timestamp) with what was submitted in the form
-const formFeedback = document.getElementById("formFeedback"); // element to display feedback messages
+// === ENTRY POINT ===
 
-// === ENTRY POINT/LISTENERS ===
-
-userSelect.addEventListener("change", (event) => {
-  currentUser = event.target.value; // 1. listen for and pick up the user that was selected and set it as the currentUser.
-  allBookmarks[currentUser] = getData(currentUser) || []; // 2. now load the current user's saved bookmarks from the imported getData OR from empty array
-  renderBookmarks(); // 3. call renderBookmarks to show the selected user's bookmarks on the page.
-});
-
-bookmarkForm.addEventListener("submit", (event) => {
-  event.preventDefault(); // 1. prevent refresh on submit
-
-  if (!currentUser) {
-    formFeedback.textContent =
-      "Mhmm strange things might happen. Please select a user first, then click the 'add bookmark' button.";
-    formFeedback.style.color = "red";
-    return; // Stop here, don't do anything else
+function setup() {
+  const userIds = getUserIds();
+  userSelect.innerHTML = "<option value=''>Select a user</option>";
+  for (const user of userIds) {
+    const option = document.createElement("option");
+    option.value = user;
+    option.textContent = user;
+    userSelect.append(option);
   }
+}
 
-  // Clear any previous warning
-  formFeedback.textContent = "";
+// === A BOOKMARK BUILDER ===
 
-  const title = document.getElementById("bookmarkTitle").value; // 2. save and grab submitted bookmark title
-  const url = document.getElementById("bookmarkURL").value; // 3. save and grab submitted URL
-  const description = document.getElementById("bookmarkDescription").value; // 4. save and grab submitted description
-
-  const bookmark = {
+function createBookmark(title, url, description) {
+  return {
     title: title,
     url: url,
     description: description,
-    timestamp: new Date().toLocaleTimeString("en-US", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    }),
     likes: 0,
-    id: Date.now(),
+    time: new Date().toISOString(),
   };
+}
 
-  if (!allBookmarks[currentUser]) {
-    allBookmarks[currentUser] = [];
-  } // if the current user doesn't have any bookmarks yet, create an empty array for them in allBookmarks
+function sortBookmarks(bookmarks) {
+  return bookmarks.sort((a, b) =>
+    a.time > b.time ? -1 : a.time < b.time ? 1 : 0,
+  );
+}
 
-  allBookmarks[currentUser].unshift(bookmark);
-  setData(currentUser, allBookmarks[currentUser]);
+function addBookmark(userId, title, url, description) {
+  let bookmarks = getData(userId);
+  bookmarks ??= [];
+  bookmarks.push(createBookmark(title, url, description));
+  sortBookmarks(bookmarks);
+  setData(userId, bookmarks);
+  return bookmarks;
+}
+
+// === ADDITIONAL SUBMIT FORM DETAILS ===
+
+function getCurrentBookmarks() {
+  return currentUser ? (getData(currentUser) ?? []) : [];
+}
+
+function clearFeedback() {
+  formFeedback.textContent = "";
+  formFeedback.style.color = "";
+}
+
+function showFeedback(message, color = "red") {
+  formFeedback.textContent = message;
+  formFeedback.style.color = color;
+}
+
+
+userSelect.addEventListener("change", (event) => {
+  currentUser = event.target.value;
+  renderBookmarks();
+});
+
+bookmarkForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  clearFeedback();
+
+  if (!currentUser) {
+    showFeedback("Please select a user first, then add a bookmark.");
+    return;
+  }
+
+  const title = bookmarkTitle.value;
+  const url = bookmarkURL.value;
+  const description = bookmarkDescription.value;
+
+  addBookmark(currentUser, title, url, description);
   renderBookmarks();
   bookmarkForm.reset();
 });
 
-// === RENDERING BOOKMARKS ===
+// === RENDER BOOKMARKS ===
 
 function renderBookmarks() {
   bookmarksBox.innerHTML = "";
 
-  const userBookmarks = allBookmarks[currentUser] || [];
+  if (!currentUser) {
+    bookmarksBox.innerHTML =
+      "<p style='color: rgb(169, 169, 169);'>Select a user to see bookmarks.</p>";
+    return;
+  }
+
+  const userBookmarks = getCurrentBookmarks();
 
   if (userBookmarks.length === 0) {
     bookmarksBox.innerHTML =
@@ -76,7 +113,9 @@ function renderBookmarks() {
     return;
   }
 
-  userBookmarks.forEach((bookmark) => {
+  const sortedBookmarks = sortBookmarks(userBookmarks);
+
+  sortedBookmarks.forEach((bookmark) => {
     const card = bookmarkTemplate.content.cloneNode(true);
 
     card.querySelector(".userBookmarkTitleLink").href = bookmark.url;
@@ -84,7 +123,7 @@ function renderBookmarks() {
     card.querySelector(".userBookmarkDescription").textContent =
       "⸺ " + bookmark.description;
     card.querySelector(".userBookmarkTimestamp").textContent =
-      "Created at: " + bookmark.timestamp;
+      "Created at: " + new Date(bookmark.time).toLocaleString();
     card.querySelector(".userBookmarkCounter").textContent =
       "Likes: " + bookmark.likes;
 
@@ -98,9 +137,12 @@ function renderBookmarks() {
     likeButton.addEventListener("click", () => {
       bookmark.likes += 1;
       likeButton.textContent = "Likes: " + bookmark.likes;
-      setData(currentUser, allBookmarks[currentUser]);
+      setData(currentUser, userBookmarks);
     });
 
     bookmarksBox.appendChild(card);
   });
 }
+
+setup();
+renderBookmarks();

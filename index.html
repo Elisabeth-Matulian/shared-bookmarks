@@ -11,8 +11,6 @@
 
 <body>
 
-    <!-- BODY: here I wanted to add the logo and user selection -->
-
     <header>
         <div class="headerTitleContainer">
             <h1>Bookmark Manager</h1>
@@ -21,34 +19,25 @@
         <div id="userSelectContainer">
             <label for="userSelect" class="visually-hidden">Select a user</label>
             <select id="userSelect">
-                <option value="">Select a user</option>
-                <option value="user1">Mirabelle</option>
-                <option value="user2">Elisabeth</option>
-                <option value="user3">Prakash</option>
-                <option value="user4">Leon</option>
-                <option value="user5">Shaif</option>
+
             </select>
         </div>
     </header>
 
     <main>
 
-        <!-- MAIN: here I wanted to add the bookmark, so I put it as template. Templates tag means that it won't get rendered directly but javascript will use it to create the bookmark elements. id="bookmarksBox" is where new bookmarks will be appended to -->
-
         <div class="bookmarksContainer">
             <template>
                 <div class="userBookmarkCard">
                     <a href="" class="userBookmarkTitleLink">
-                        <h2 class="userBookmarkTitle">Pope Releases Encyclical On Perils Of Disney's 'Star Wars'
-                            Strategy
+                        <h2 class="userBookmarkTitle">Title
                         </h2>
                     </a>
-                    <p class="userBookmarkDescription">⸺ "I fear for what horrors the fan base might soon endure, but I
-                        would be negligent not to give Andor its flowers."</p>
+                    <p class="userBookmarkDescription">⸺ "Description"</p>
 
                     <div class="userBookmarkDetailsContainer">
                         <p class="userBookmarkTimestamp">Created at: 2:43 PM</p>
-                        <p class="userBookmarkCounter">Likes: 5</p>
+                        <p class="userBookmarkCounter">Likes: 0</p>
                         <button class="copyClipboardButton">Copy to Clipboard</button>
                     </div>
                 </div>
@@ -58,10 +47,8 @@
 
         </div>
 
-        <!-- SUBMIT FORM: here I wanted to add the form to submit the bookmark -->
-
         <div class="submitBookmarkContainer">
-            <h3 class="submitBookmarkTitle">Add bookmarks</h3>
+            <h2 class="submitBookmarkTitle">Add bookmarks</h2>
 
             <form id="bookmarkForm">
                 <label for="bookmarkTitle">
@@ -85,8 +72,6 @@
             <div id="formFeedback"></div>
         </div>
     </main>
-
-    <!-- FOOTER: Footer is the footer lol -->
 
     <footer>
         <p>&copy; 2026 Bookmarks App</p>
