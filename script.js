@@ -28,7 +28,7 @@ function setup() {
 
 // === A BOOKMARK BUILDER ===
 
-function createBookmark(title, url, description) {
+export function createBookmark(title, url, description) {
   return {
     title: title,
     url: url,
