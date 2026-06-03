@@ -4,41 +4,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A bookmark manager built by Elisabeth and Mirabelle for Checkpoint" />
+    <link rel="stylesheet" href="style.css">
     <title>Bookmarks</title>
 </head>
 
 <body>
-    <label>
-        Select User:
-        <select id="userSelect">
-            <option value="">Select a user</option>
-            <option value="user1">Mirabelle</option>
-            <option value="user2">Elisabeth</option>
-            <option value="user3">Prakash</option>
-            <option value="user4">Leon</option>
-            <option value="user5">Shaif</option>
-        </select>
-    </label>
-    <form id="bookmarkForm">
-        <label>
-            Title:
-            <textarea id="bookmarkTitle" placeholder="Bookmark Title"></textarea>
-        </label>
-        <label>
-            URL:
-            <input type="url" id="bookmarkURL" placeholder="Bookmark URL" required>
-        </label>
-        <label>
-            Description:
-            <textarea id="bookmarkDescription" placeholder="Bookmark Description"></textarea>
-        </label>
-        <button type="submit">Add Bookmark</button>
-    </form>
-    <div id="bookmarksBox"></div>
-    <script src="script.js"></script>
+
+    <header>
+        <div class="headerTitleContainer">
+            <h1>Bookmark Manager</h1>
+        </div>
+
+        <div id="userSelectContainer">
+            <label for="userSelect" class="visually-hidden">Select a user</label>
+            <select id="userSelect">
+
+            </select>
+        </div>
+    </header>
+
+    <main>
+
+        <div class="bookmarksContainer">
+            <template>
+                <div class="userBookmarkCard">
+                    <a href="" class="userBookmarkTitleLink">
+                        <h2 class="userBookmarkTitle">Title
+                        </h2>
+                    </a>
+                    <p class="userBookmarkDescription">⸺ "Description"</p>
+
+                    <div class="userBookmarkDetailsContainer">
+                        <p class="userBookmarkTimestamp">Created at: 2:43 PM</p>
+                        <p class="userBookmarkCounter">Likes: 0</p>
+                        <button class="copyClipboardButton">Copy to Clipboard</button>
+                    </div>
+                </div>
+            </template>
+
+            <div id="bookmarksBox"></div>
+
+        </div>
+
+        <div class="submitBookmarkContainer">
+            <h2 class="submitBookmarkTitle">Add bookmarks</h2>
+
+            <form id="bookmarkForm">
+                <label for="bookmarkTitle">
+                    Title
+                    <input type="text" id="bookmarkTitle" placeholder="Bookmark Title" required>
+                </label>
+
+                <label for="bookmarkURL">
+                    URL
+                    <input type="url" id="bookmarkURL" placeholder="Bookmark URL" required>
+                </label>
+
+                <label for="bookmarkDescription">
+                    Description
+                    <textarea id="bookmarkDescription" placeholder="Bookmark Description"></textarea>
+                </label>
+
+                <button type="submit">Add Bookmark</button>
+            </form>
+
+            <div id="formFeedback"></div>
+        </div>
+    </main>
+
     <footer>
         <p>&copy; 2026 Bookmarks App</p>
     </footer>
+
+    <script type="module" src="script.js"></script>
 </body>
 
 </html>
