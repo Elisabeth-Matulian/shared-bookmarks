@@ -28,7 +28,7 @@ function setup() {
 
 // === A BOOKMARK BUILDER ===
 
-export function createBookmark(title, url, description) {
+function createBookmark(title, url, description) {
   return {
     title: title,
     url: url,
@@ -69,7 +69,6 @@ function showFeedback(message, color = "red") {
   formFeedback.style.color = color;
 }
 
-
 userSelect.addEventListener("change", (event) => {
   currentUser = event.target.value;
   renderBookmarks();
@@ -101,7 +100,7 @@ function renderBookmarks() {
 
   if (!currentUser) {
     bookmarksBox.innerHTML =
-      "<p style='color: rgb(169, 169, 169);'>Select a user to see bookmarks.</p>";
+      "<p style='color:  #4f4f4f;'>Select a user to see bookmarks.</p>";
     return;
   }
 
@@ -109,7 +108,7 @@ function renderBookmarks() {
 
   if (userBookmarks.length === 0) {
     bookmarksBox.innerHTML =
-      "<p style='color: rgb(169, 169, 169);'>No bookmarks yet. Add one!</p>";
+      "<p style='color:  #4f4f4f;'>No bookmarks yet. Add one!</p>";
     return;
   }
 
