@@ -61,10 +61,8 @@ describe("Bookmark Sorting (Non-Trivial)", () => {
 
     const sorted = sortBookmarks(bookmarks);
 
-    // All 3 bookmarks should still exist
     expect(sorted.length).toBe(3);
 
-    // Each should have their own URL
     expect(sorted[0].url).toBe("https://google.com.au");
     expect(sorted[1].url).toBe("https://google.co.uk");
     expect(sorted[2].url).toBe("https://google.com");
