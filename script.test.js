@@ -68,3 +68,20 @@ describe("Bookmark Sorting (Non-Trivial)", () => {
     expect(sorted[2].url).toBe("https://google.com");
   });
 });
+
+
+describe("Bookmark Creating (Non-Trivial)", () => {
+  test("createBookmark creates a bookmark object with correct properties", () => {
+    const title = "Example";
+    const url = "https://example.com";
+    const description = "An example bookmark";
+
+    const bookmark = createBookmark(title, url, description);
+
+    expect(bookmark.title).toBe(title);
+    expect(bookmark.url).toBe(url);
+    expect(bookmark.description).toBe(description);
+    expect(bookmark.likes).toBe(0);
+    expect(bookmark.time).not.toBe("");
+  });
+});
