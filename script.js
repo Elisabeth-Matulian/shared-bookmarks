@@ -17,7 +17,9 @@ const formFeedback = document.getElementById("formFeedback");
 
 function setup() {
   const userIds = getUserIds();
+
   userSelect.innerHTML = "<option value=''>Select a user</option>";
+
   for (const user of userIds) {
     const option = document.createElement("option");
     option.value = user;
@@ -46,10 +48,15 @@ function sortBookmarks(bookmarks) {
 
 function addBookmark(userId, title, url, description) {
   let bookmarks = getData(userId);
+
   bookmarks ??= [];
+
   bookmarks.push(createBookmark(title, url, description));
+
   sortBookmarks(bookmarks);
+
   setData(userId, bookmarks);
+
   return bookmarks;
 }
 
@@ -60,47 +67,57 @@ function getCurrentBookmarks() {
 }
 
 function clearFeedback() {
+  if (!formFeedback) return;
+
   formFeedback.textContent = "";
   formFeedback.style.color = "";
 }
 
 function showFeedback(message, color = "red") {
+  if (!formFeedback) return;
+
   formFeedback.textContent = message;
   formFeedback.style.color = color;
 }
 
-userSelect.addEventListener("change", (event) => {
-  currentUser = event.target.value;
-  renderBookmarks();
-});
+if (userSelect) {
+  userSelect.addEventListener("change", (event) => {
+    currentUser = event.target.value;
+    renderBookmarks();
+  });
+}
 
-bookmarkForm.addEventListener("submit", (event) => {
-  event.preventDefault();
+if (bookmarkForm) {
+  bookmarkForm.addEventListener("submit", (event) => {
+    event.preventDefault();
 
-  clearFeedback();
+    clearFeedback();
 
-  if (!currentUser) {
-    showFeedback("Please select a user first, then add a bookmark.");
-    return;
-  }
+    if (!currentUser) {
+      showFeedback("Please select a user first, then add a bookmark.");
+      return;
+    }
 
-  const title = bookmarkTitle.value;
-  const url = bookmarkURL.value;
-  const description = bookmarkDescription.value;
+    const title = bookmarkTitle.value;
+    const url = bookmarkURL.value;
+    const description = bookmarkDescription.value;
 
-  addBookmark(currentUser, title, url, description);
-  renderBookmarks();
-  bookmarkForm.reset();
-});
+    addBookmark(currentUser, title, url, description);
+    renderBookmarks();
+    bookmarkForm.reset();
+  });
+}
 
 // === RENDER BOOKMARKS ===
 
 function renderBookmarks() {
+  if (!bookmarksBox || !bookmarkTemplate) return;
+
   bookmarksBox.innerHTML = "";
 
   if (!currentUser) {
     bookmarksBox.innerHTML =
-      "<p style='color:  #4f4f4f;'>Select a user to see bookmarks.</p>";
+      "<p style='color: #4f4f4f;'>Select a user to see bookmarks.</p>";
     return;
   }
 
@@ -108,7 +125,7 @@ function renderBookmarks() {
 
   if (userBookmarks.length === 0) {
     bookmarksBox.innerHTML =
-      "<p style='color:  #4f4f4f;'>No bookmarks yet. Add one!</p>";
+      "<p style='color: #4f4f4f;'>No bookmarks yet. Add one!</p>";
     return;
   }
 
@@ -119,10 +136,13 @@ function renderBookmarks() {
 
     card.querySelector(".userBookmarkTitleLink").href = bookmark.url;
     card.querySelector(".userBookmarkTitle").textContent = bookmark.title;
+
     card.querySelector(".userBookmarkDescription").textContent =
       "⸺ " + bookmark.description;
+
     card.querySelector(".userBookmarkTimestamp").textContent =
       "Created at: " + new Date(bookmark.time).toLocaleString();
+
     card.querySelector(".userBookmarkCounter").textContent =
       "Likes: " + bookmark.likes;
 
@@ -143,5 +163,9 @@ function renderBookmarks() {
   });
 }
 
-setup();
-renderBookmarks();
+if (userSelect && bookmarksBox) {
+  setup();
+  renderBookmarks();
+}
+
+export { sortBookmarks, createBookmark };
